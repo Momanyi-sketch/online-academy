@@ -1,0 +1,293 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pure and Applied Mathematics Academy</title>
+
+    <meta name="description" content="Learn pure and applied mathematics through quality online courses.">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="/">
+                PURE & APPLIED MATHS
+                <span>ACADEMY</span>
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#courses">Courses</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary nav-button" href="/admin/">
+                            Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <span class="hero-label">
+                    ONLINE MATHEMATICS LEARNING
+                </span>
+
+                <h1>
+                    Master Mathematics.
+                    <span>Shape Your Future.</span>
+                </h1>
+
+                <p>
+                    Develop strong mathematical foundations through
+                    structured online courses designed for university,
+                    college and school students.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#courses" class="btn btn-primary btn-lg">
+                        Explore Courses
+                    </a>
+
+                    <a href="#about" class="btn btn-outline-light btn-lg">
+                        Learn More
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div>
+                        <h3>Quality</h3>
+                        <p>Learning resources</p>
+                    </div>
+
+                    <div>
+                        <h3>Flexible</h3>
+                        <p>Online learning</p>
+                    </div>
+
+                    <div>
+                        <h3>Practical</h3>
+                        <p>Mathematical skills</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- COURSES SECTION -->
+    <section class="courses-section" id="courses">
+        <div class="container">
+
+            <div class="section-heading">
+                <span>OUR PROGRAMMES</span>
+                <h2>Explore Our Courses</h2>
+                <p>
+                    Choose a course and take the next step in your
+                    mathematical journey.
+                </p>
+            </div>
+
+            <div class="row g-4">
+
+                {% for course in courses %}
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="course-card h-100">
+
+                        {% if course.thumbnail %}
+                            <img
+                                src="{{ course.thumbnail.url }}"
+                                class="course-image"
+                                alt="{{ course.title }}"
+                            >
+                        {% else %}
+                            <div class="course-placeholder">
+                                <span>∑</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="course-content">
+
+                            <span class="course-label">
+                                MATHEMATICS COURSE
+                            </span>
+
+                            <h3>{{ course.title }}</h3>
+
+                            <p>
+                                {{ course.description|truncatewords:25 }}
+                            </p>
+
+                            <div class="course-bottom">
+
+                                <div>
+                                    <small>Course price</small>
+                                    <h4>KSh {{ course.price }}</h4>
+                                </div>
+
+                                <a
+                                    href="{% url 'course_detail' course.slug %}"
+                                    class="btn btn-primary"
+                                >
+                                    View Course
+                                </a>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                {% empty %}
+
+                <div class="col-12">
+                    <div class="empty-courses">
+                        <h3>No courses available yet.</h3>
+                        <p>
+                            New learning opportunities are coming soon.
+                            Please check back later.
+                        </p>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+                    <span class="section-label">ABOUT OUR ACADEMY</span>
+
+                    <h2>
+                        Making Mathematics
+                        <span>Understandable.</span>
+                    </h2>
+
+                    <p>
+                        Pure and Applied Mathematics Academy provides
+                        structured learning opportunities for students
+                        who want to improve their understanding of
+                        mathematics.
+                    </p>
+
+                    <p>
+                        Our goal is to make mathematical concepts easier
+                        to understand through clear explanations,
+                        practical examples and guided learning.
+                    </p>
+
+                    <a href="#courses" class="btn btn-primary">
+                        Start Learning
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="about-box">
+                        <div class="math-symbol">∫</div>
+                        <h3>Think Mathematically</h3>
+                        <p>
+                            Build confidence, develop problem-solving
+                            skills and explore the beauty of mathematics.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact">
+        <div class="container text-center">
+
+            <span class="section-label">GET IN TOUCH</span>
+
+            <h2>Ready to Start Learning?</h2>
+
+            <p>
+                Explore our courses and take the next step in your
+                mathematical education.
+            </p>
+
+            <a href="mailto:stephenmomanyi545@gmail.com"
+               class="btn btn-primary btn-lg">
+                Contact the Academy
+            </a>
+
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+
+            <h4>PURE AND APPLIED MATHEMATICS ACADEMY</h4>
+
+            <p>
+                Learn Mathematics. Shape Your Future.
+            </p>
+
+            <div class="footer-line"></div>
+
+            <p class="copyright">
+                © 2026 Pure and Applied Mathematics Academy.
+                All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

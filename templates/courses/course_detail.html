@@ -1,0 +1,335 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ course.title }} | Pure and Applied Mathematics Academy</title>
+
+    <meta name="description" content="{{ course.description|truncatewords:25 }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="/">
+            PURE & APPLIED MATHS
+            <span>ACADEMY</span>
+        </a>
+
+        <div class="ms-auto d-flex gap-2">
+
+            <a href="/" class="btn btn-outline-light">
+                All Courses
+            </a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'student_dashboard' %}" class="btn btn-primary">
+                    My Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'student_login' %}" class="btn btn-primary">
+                    Student Login
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- COURSE HERO -->
+<section class="course-detail-hero">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-7">
+
+                <span class="course-detail-label">
+                    PURE AND APPLIED MATHEMATICS ACADEMY
+                </span>
+
+                <h1>{{ course.title }}</h1>
+
+                <p class="course-detail-description">
+                    {{ course.description }}
+                </p>
+
+                <div class="course-detail-price">
+                    <span>Course Fee</span>
+                    <h2>KSh {{ course.price }}</h2>
+                </div>
+
+                {% if is_enrolled %}
+
+                    <a href="{% url 'student_dashboard' %}"
+                       class="btn btn-primary btn-lg">
+                        Go to My Dashboard
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'checkout' course.slug %}" class="btn btn-primary btn-lg">
+                        Enrol Now
+                    </a>
+
+                    <p class="enrolment-note">
+                        Online enrolment and payment facilities are coming soon.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="col-lg-5">
+
+                <div class="course-detail-image-box">
+
+                    {% if course.thumbnail %}
+
+                        <img src="{{ course.thumbnail.url }}"
+                             alt="{{ course.title }}"
+                             class="course-detail-image">
+
+                    {% else %}
+
+                        <div class="course-detail-placeholder">
+                            ∑
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COURSE INFORMATION -->
+<section class="course-information">
+
+    <div class="container">
+
+        <div class="row g-5">
+
+            <div class="col-lg-8">
+
+                <div class="course-information-card">
+
+                    <span class="section-label">
+                        COURSE INFORMATION
+                    </span>
+
+                    <h2>About This Course</h2>
+
+                    <p class="full-course-description">
+                        {{ course.description|linebreaksbr }}
+                    </p>
+
+                </div>
+
+
+                <div class="course-information-card mt-4">
+
+                    <h2>Why Study This Course?</h2>
+
+                    <ul class="course-benefits">
+
+                        <li>Develop strong mathematical foundations.</li>
+
+                        <li>Understand important mathematical concepts.</li>
+
+                        <li>Learn through structured lessons.</li>
+
+                        <li>Access learning materials and video lessons.</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="course-summary-card">
+
+                    <h3>Course Summary</h3>
+
+                    <div class="summary-item">
+                        <span>Course Name</span>
+                        <strong>{{ course.title }}</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Course Fee</span>
+                        <strong>KSh {{ course.price }}</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Available Lessons</span>
+                        <strong>{{ lessons.count }}</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Access Status</span>
+
+                        {% if is_enrolled %}
+                            <strong>Enrolled</strong>
+                        {% else %}
+                            <strong>Not Enrolled</strong>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COURSE LESSONS -->
+<section class="course-lessons">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>COURSE CONTENT</span>
+
+            <h2>Lessons in This Course</h2>
+
+            <p>
+                Follow the lessons in order and build your mathematical knowledge.
+            </p>
+
+        </div>
+
+
+        {% if is_enrolled %}
+
+            <div class="enrollment-status">
+                ✓ You are enrolled in this course.
+            </div>
+
+        {% elif user.is_authenticated %}
+
+            <div class="enrollment-locked">
+                You need to enrol in this course to access its lessons.
+            </div>
+
+        {% else %}
+
+            <div class="enrollment-locked">
+
+                Please log in and enrol to access the lessons.
+
+                <a href="{% url 'student_login' %}"
+                   class="btn btn-primary mt-2">
+                    Student Login
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="lesson-list">
+
+            {% for lesson in lessons %}
+
+                <div class="lesson-item">
+
+                    <div class="lesson-number">
+                        {{ lesson.lesson_number }}
+                    </div>
+
+                    <div class="lesson-information">
+
+                        <h4>{{ lesson.title }}</h4>
+
+                        <p>
+                            {{ lesson.description|truncatewords:20 }}
+                        </p>
+
+                    </div>
+
+                    {% if is_enrolled %}
+
+                        <a href="{% url 'lesson_detail' course.slug lesson.id %}"
+                           class="lesson-arrow">
+                            Open →
+                        </a>
+
+                    {% else %}
+
+                        <span class="lesson-locked">
+                            🔒 Locked
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+
+                <div class="no-lessons">
+
+                    <h4>Lessons coming soon</h4>
+
+                    <p>
+                        Learning materials for this course will be added soon.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+
+    <div class="container text-center">
+
+        <p>
+            © 2026 Pure and Applied Mathematics Academy.
+            All rights reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
